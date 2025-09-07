@@ -59,6 +59,9 @@ async def get_zones(city: str) -> ZonesResponse:
 
     except FileNotFoundError as e:
         raise HTTPException(status_code=500, detail='Zone data not available') from e
+    except HTTPException:
+        # Re-raise HTTPExceptions (like 404s) without wrapping
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f'Error loading zones: {str(e)}') from e
 
@@ -78,6 +81,9 @@ async def get_zone(city: str, zone_id: str) -> ZTLZone:
 
         return ZTLZone(**zone_data)
 
+    except HTTPException:
+        # Re-raise HTTPExceptions (like 404s) without wrapping
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f'Error loading zone: {str(e)}') from e
 
