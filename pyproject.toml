@@ -88,5 +88,6 @@ source = ["src"]
 omit = [
     "__init__.py",
     "__main__.py",
+    "src/ztlb/version.py",
 ]
 fail_under = 90
