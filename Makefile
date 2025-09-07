@@ -43,3 +43,29 @@ mypy: .uv .pre-commit ## Runs mypy type checking
 	else \
 		uv run mypy src; \
 	fi
+
+.PHONY: run-tests
+run-tests: .uv .pre-commit ## Run tests
+	@if [ -n "$(path)" ]; then \
+		uv run coverage run -m pytest $(path); \
+	else \
+		uv run coverage run -m pytest; \
+	fi
+
+.PHONY: run-tests-cov
+run-tests-cov: .uv .pre-commit ## Run tests with coverage
+	@uv run pytest -n auto --cov=src tests
+
+.PHONY: clean
+clean: ## Remove generated files like __pycache__, .coverage, etc.
+	@find . -type d -name "__pycache__" -exec rm -rf {} +
+	@find . -type f -name "*.pyc" -delete
+	@find . -type f -name "*.pyo" -delete
+	@find . -type f -name "*.pyd" -delete
+	@find . -type d -name "*.egg-info" -exec rm -rf {} +
+	@find . -type d -name "*.egg" -exec rm -rf {} +
+	@find . -type f -name ".coverage" -delete
+	@find . -type d -name "htmlcov" -exec rm -rf {} +
+	@find . -type d -name ".pytest_cache" -exec rm -rf {} +
+	@find . -type d -name ".ruff_cache" -exec rm -rf {} +
+	@rm -rf dist/ build/ .coverage

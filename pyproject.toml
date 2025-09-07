@@ -5,6 +5,8 @@ description = "Backend for ZTL Maps"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "click>=8.2.1",
+    "fastapi[standard]>=0.116.1",
     "pydantic>=2.11.7",
 ]
 
@@ -15,8 +17,8 @@ build-backend = "hatchling.build"
 [tool.hatch.version]
 source = "uv-dynamic-versioning"
 
-[tool.hatch.build]
-packages = ["src"]
+[project.scripts]
+ztlb = "ztlb.cli:cli"
 
 [dependency-groups]
 dev = [
